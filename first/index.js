@@ -9,6 +9,9 @@ function createStorm() {
 
     const subscribe = listener =>{
         listeners.push(listener)
+        return()=>{
+            listeners =listeners.filter(l=> l!== listener)
+        }
     };
 
     return(
@@ -23,7 +26,8 @@ store.subscribe(()=>{
     console.log('The new state is',store.getState())
 });
 
-store.subscribe(()=>{
+store.unsubscribe(()=>()=>{
     console.log('The store changed');
 });
 
+unsubscribe();
