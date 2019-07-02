@@ -6,7 +6,7 @@ function todos(state=[],action) {
     return  state
 }
 
-function createStore() {
+function createStore(reducer) {
 //    状态树需要4个部分
 //    1. 状态
 //    2. 获取状态
@@ -18,14 +18,23 @@ function createStore() {
 
     const subscribe = listener =>{
         listeners.push(listener)
+        return ()=>{
+            listeners = listeners.filter(l => l !==listener)
+        };
     };
+
+    const dispatch = action =>{
+        state = reducer(state,action);
+        listeners.forEach(listeners => listener());
+    }
     return{
         getState,
-        subscribe
+        subscribe,
+        dispatch
     }
 }
 
-const store = createStore();
+const store = createStore(todos);
 
 store.subscribe(()=>{
     console.log('The new state is',store.getState())
