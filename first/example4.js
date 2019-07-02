@@ -11,11 +11,8 @@ const musicData = [
     { artist: 'Justin Bieber', name: 'Purpose', sales: 554000 }
 ];
 
-
-const totalAlbumSales = musicData.reduce((cumulativeValue,theCurrentValue)=>{
-    return cumulativeValue + theCurrentValue.sales
+const totalAlbumSales = musicData.filter((c)=> (c.artist.length)+(c.name.length) <25).reduce((plus,current)=>{
+    return plus + current.sales
 },0);
 
-
 console.log(totalAlbumSales)
-
