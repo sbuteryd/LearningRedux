@@ -1,3 +1,11 @@
+// reducer
+function todos(state=[],action) {
+    if(action ==='ADD_TODO'){
+        return state.concat([action.todo])
+    }
+    return  state
+}
+
 function createStore() {
 //    状态树需要4个部分
 //    1. 状态
