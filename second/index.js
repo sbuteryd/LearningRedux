@@ -1,11 +1,4 @@
-// reducer
-function todos(state=[],action) {
-    if(action ==='ADD_TODO'){
-        return state.concat([action.todo])
-    }
-    return  state
-}
-
+// library code
 function createStore(reducer) {
 //    状态树需要4个部分
 //    1. 状态
@@ -25,7 +18,7 @@ function createStore(reducer) {
 
     const dispatch = action =>{
         state = reducer(state,action);
-        listeners.forEach(listeners => listener());
+        listeners.forEach(listener => listener());
     }
     return{
         getState,
@@ -34,12 +27,28 @@ function createStore(reducer) {
     }
 }
 
+// App code (reducer)
+function todos(state=[],action) {
+    if(action ==='ADD_TODO'){
+        return state.concat([action.todo])
+    }
+    return  state
+}
+
+
 const store = createStore(todos);
 
 store.subscribe(()=>{
     console.log('The new state is',store.getState())
 });
 
+store.dispatch(({
+    type:'ADD_TODO',
+    todo:{id:0,name:'Learn Redux',complete:false}
+}))
+
 const unsubscribe = store.subscribe(()=>{
     console.log('The store change')
 });
+
+
