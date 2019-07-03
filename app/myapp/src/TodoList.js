@@ -5,14 +5,22 @@ import store from './store'
 
 class TodoList extends Component{
     constructor(props){
-        super(props)
-        this.state = store.getState()
+        super(props);
+        this.state = store.getState();
+        this.handleInputChange = this.handleInputChange.bind(this)
+        this.handleStoreChange = this.handleStoreChange.bind(this)
+        store.subscribe(this.handleStoreChange)
     }
     render() {
         return (
             <div style={{marginTop:'20px',marginLeft:'30px'}}>
                 <div>
-                    <Input placeholder="Todo info" style={{width:'300px',marginRight:'10px'}}/>
+                    <Input
+                        value={this.state.values}
+                        placeholder="Todo info"
+                        style={{width:'300px',marginRight:'10px'}}
+                        onChange={this.handleInputChange}
+                    />
                     <Button type='primary'>提交</Button>
                 </div>
                 <List
@@ -26,6 +34,16 @@ class TodoList extends Component{
 
         );
     }
+    handleInputChange(e){
+        const action = {
+            type:'change_input_value',
+            value:e.target.value
+        };
+        store.dispatch(action)
+    }
+    handleStoreChange(){
+        this.setState(store.getState())
+    };
 }
 
 
